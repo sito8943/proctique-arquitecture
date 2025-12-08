@@ -36,8 +36,27 @@ Storages
 
 ## Communication
 
-1. Frontend - Backend via Rest API
-2. Backend - Queue via events
+1. Frontend - Backend via Rest API Synchronous
+2. Backend - Queue via events Asynchronous
+3. Backend - Database Synchronous
+4. Backend - Image Storage Synchronous
+
+## Public 
+
+1. Frontend
+2. Projects Services
+3. Reviews Services
+4. Auth Services
+5. Image Storage (only Read)
+
+## Internal
+
+1. Email Event Queue
+2. Main Database
+3. Image Storage
+4. Send New Review email
+5. Send Password Reset email
+6. Send Project Published email
 
 ## AuthN and AuthZ
 
