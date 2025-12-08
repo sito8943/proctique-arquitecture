@@ -62,11 +62,35 @@ Storages
 
 JWT for authentication and Role-Based for Authorization
 
+Roles:
+
+1. Normal User
+
+*Can see published projects and post reviews on projects*
+
+2. Author
+
+*Can manage their own projects (CRUD)*
+
+3. Admin
+
+*Can manage all*
+
+Users (All of them) go to the Login View and there can Sign In or Sign Up to be able to:
+
+- Post Reviews
+- Manage Projects
+- Manage All (For admin only)
+
+But without signing in, all users can see projects in the public project page
+
 ## MVP Diagram
 
 ![Proctique MVP diagram](mvp-diagram.png)
 
 *Legend*
 ![Proctique MVP diagram legend](legend.png)
+
+*Note: For MVP we are not going to use any external service* 
 
 *Note: You can review on Figjam [here](https://www.figma.com/board/FaCHliTP4UXuOrhvpX1UHV/M4-HS-Designing-APIs?node-id=32-361)*
