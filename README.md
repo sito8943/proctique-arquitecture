@@ -36,27 +36,36 @@ Storages
 
 ## Communication
 
-1. Frontend - Backend via Rest API Synchronous
-2. Backend - Queue via events Asynchronous
-3. Backend - Database Synchronous
-4. Backend - Image Storage Synchronous
+1. Frontend - Backend [RestAPI] [Synchronous]
+2. Backend - Queue [Queues/Events] [Asynchronous]
+3. Backend - Database [Storage] [Synchronous]
+4. Backend - Image Storage [Storage] [Synchronous]
 
-## Public 
+## Public (Access to the public)
 
-1. Frontend
-2. Projects Services
-3. Reviews Services
-4. Auth Services
-5. Image Storage (only Read)
+1. Frontend (Public views)
+2. Auth Services
+3. Projects Services (Only see Published Projects)
+4. Reviews Services (Only see and post Reviews)
+5. Image Storage [Read]
 
-## Internal
+## Internal (Privately or need to be authenticated)
 
-1. Email Event Queue
-2. Main Database
-3. Image Storage
-4. Send New Review email
-5. Send Password Reset email
-6. Send Project Published email
+*Authentication required*
+
+- Projects Services [RestAPI] [JWT] (CRUD) (To manage all need to be admin)
+
+- Reviews Services [RestAPI] [JWT] (CRUD) (To manage all need to be admin)
+
+- Image Storage [Storage] [JWT] (Upload / Delete) 
+
+*Managed by services*
+
+- Main Database [Storage]
+- Email Event Queue [Queues/Events]
+- Send New Review email [Worker]
+- Send Password Reset email [Worker]
+- Send Project Published email [Worker]
 
 ## AuthN and AuthZ
 
@@ -64,19 +73,13 @@ JWT for authentication and Role-Based for Authorization
 
 Roles:
 
-1. Normal User
+1. Normal User (Can see published projects and post reviews on projects)
 
-*Can see published projects and post reviews on projects*
+2. Author (Can manage their own projects (CRUD))
 
-2. Author
+3. Admin (Can manage all)
 
-*Can manage their own projects (CRUD)*
-
-3. Admin
-
-*Can manage all*
-
-Users (All of them) go to the Login View and there can Sign In or Sign Up to be able to:
+Users (All of them) need to go to the Login View to be able to Sign In or Sign Up, after it:
 
 - Post Reviews
 - Manage Projects
