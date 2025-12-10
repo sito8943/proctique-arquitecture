@@ -64,12 +64,12 @@ These flows are not generic authentication flows—they reflect how Proctique ha
 1. Publish Project Flow
 ```mermaid
 sequenceDiagram
-    participant A as Author App (Frontend)
+    participant A as Author Frontend
     participant PS as Projects Service
     participant IS as Image Storage
     participant DB as Main Database
     participant EQ as Email Event Queue
-    participant EM as Email Sender Lambda
+    participant EM as Email Sender Worker
 
     A->>PS: POST /projects (project data + images)
     PS->>IS: Upload project image(s)
@@ -83,25 +83,50 @@ sequenceDiagram
 ```
 2. Submit Review Flow
 
-Actors: User App → Reviews Service → Email Event Queue → Email Sender Lambda → Main Database
+```mermaid
+sequenceDiagram
+    participant U as Projects Frontend
+    participant RS as Reviews Service
+    participant DB as Main Database
+    participant EQ as Email Event Queue
+    participant EM as Email Sender Worker
+
+    U->>RS: POST /projects/{id}/reviews (review text + rating)
+    RS->>DB: Insert review record
+    DB-->>RS: Review saved
+    RS->>EQ: Emit "ReviewSubmitted" event
+    EQ-->>EM: Deliver event
+    EM->>U: Send email to project author
+    RS-->>U: Return review created response
+```
 
 3. Admin Moderation Flow
 
-Actors: Admin Dashboard → Projects/Reviews Service → Auth Service → Main Database
+```mermaid
+sequenceDiagram
+    participant AD as Admin Dashboard
+    participant AS as Auth Service
+    participant S as Projects/Reviews Service
+    participant DB as Main Database
+
+    AD->>AS: Validate admin token/roles
+    AS-->>AD: Authorized
+    AD->>S: PATCH /moderation/{entityId} (action: approve/hide/delete)
+    S->>DB: Update entity moderation status
+    DB-->>S: Update successful
+    S-->>AD: Moderation action completed
+```
 
 4. Project Discovery Flow
 
-Actors: Client App → Projects Service → Main Database
+```mermaid
+sequenceDiagram
+    participant U as Projects Frontend
+    participant PS as Projects Service
+    participant DB as Main Database
 
-Make sure your diagrams include all elements, even if some services live inside the same backend container.
-
-Submission Requirement
-
-Add these flows and sequence diagrams to your repository
-Include them under a directory such as:
-
-/docs/architecture/sequence-diagrams/
-
-Then submit the link to that directory.
-
-If you want, I can also generate the Mermaid sequence diagrams automatically, ready for your repo.
+    U->>PS: GET /projects?filters...
+    PS->>DB: Query projects with filters & sorting
+    DB-->>PS: Return project list
+    PS-->>U: Send projects response
+```
