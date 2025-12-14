@@ -1,99 +1,80 @@
-# Proctique Arquitecture
-Proctique is a Project Discovery Platform where authors can showcase their work, and users can explore, evaluate, and leave meaningful reviews on published projects. The platform also includes an administrative layer that moderates the community and manages authors, projects, categories, and reviews to ensure a healthy and organized ecosystem.
+# Proctique – Project Discovery Platform
 
-## Project elements
+Proctique is a Project Discovery Platform where authors can showcase their work, users can explore and review projects, and administrators moderate the community to ensure quality and trust.
+The platform evolves incrementally, following a phased architecture approach to balance delivery speed, scalability, and maintainability.
 
-Clients 
-1. Users
-2. Authors
-3. Admin
+This repository documents the system architecture and capabilities across multiple phases of development.
 
-Frontends (Views)
-1. Reviews
-2. Projects
-3. Admin Dashboard
-4. Auth
+## Architecture Evolution Overview
 
-Backend
-1. Reviews
-2. Projects
-3. Auth
-4. Email Event Queue (Queue)
-5. Send New review email (Notification)
-6. Send Reset password email (Notification)
-7. Send Project published email (Notification)
+Proctique is designed to grow in clearly defined phases, each adding new capabilities while building on the previous one.
+- MVP focuses on core discovery, reviews, and basic notifications.
+- Phase I introduces moderation and reporting to make the platform production-ready.
+- Phase II expands observability, analytics, and scalability to support growth and data-driven decisions.
 
-Storages
-1. Main database
-2. Image storage (File storage)
+Each phase is documented independently to clearly show architectural decisions and trade-offs at that stage.
 
-## Project Patterns
+## MVP (Minimum Viable Product)
 
-1. Client–Server
-2. Modular monolith
-3. Event-Driven (queue)
-4. Role-based access control
+[Documentation](/mvp/README.md)
 
-## Communication
+### Summary
 
-1. Frontend - Backend [RestAPI] [Synchronous]
-2. Backend - Queue [Queues/Events] [Asynchronous]
-3. Backend - Database [Storage] [Synchronous]
-4. Backend - Image Storage [Storage] [Synchronous]
+The MVP establishes the core functionality of Proctique
 
-## Public (Access to the public)
+#### Core functionality
+- Authors can publish projects
+- Users can browse projects and leave reviews
+- Admins can manage content
+- Email notifications are sent for key events (new review, project published, password reset)
 
-1. Frontend (Public views)
-2. Auth Services
-3. Projects Services (Only see Published Projects)
-4. Reviews Services (Only see and post Reviews)
-5. Image Storage [Read]
+#### Key Characteristics
+- Modular monolith backend
+- REST-based client–server communication
+- Role-based access control (RBAC)
+- Event-driven notifications via a queue
+- Public and authenticated API separation
 
-## Internal (Privately or need to be authenticated)
+The MVP validates the core product idea with minimal infrastructure complexity.
 
-*Authentication required*
+## Phase I – Production Readiness & Moderation
 
-- Projects Services [RestAPI] [JWT] (CRUD) (To manage all need to be admin)
+[Documentation](/phase1/CHANGELOG.md)
 
-- Reviews Services [RestAPI] [JWT] (CRUD) (To manage all need to be admin)
+### Summary
 
-- Image Storage [Storage] [JWT] (Upload / Delete) 
+Phase I focuses on making Proctique ready for public release by adding moderation and governance capabilities.
 
-*Managed by services*
+#### Key Additions
+- Reports Service for projects and reviews
+- Admin moderation dashboard
+- Synchronous orchestration when reports are approved
+- Automatic actions:
+- Unpublish reported projects
+- Hide or delete reported reviews
+- New notification flows for report lifecycle events
 
-- Main Database [Storage]
-- Email Event Queue [Queues/Events]
-- Send New Review email [Worker]
-- Send Password Reset email [Worker]
-- Send Project Published email [Worker]
+#### Why Phase I Matters?
+- Introduces trust and safety mechanisms
+- Enables real admin workflows
+- Ensures immediate consistency between moderation decisions and content visibility
 
-## AuthN and AuthZ
+## Phase II – Analytics, Scale & Insights
 
-JWT for authentication and Role-Based for Authorization
+[Documentation](/phase2/CHANGELOG.md)
 
-Roles:
+#### Summary
 
-1. Normal User (Can see published projects and post reviews on projects)
+Phase II focuses on observability, analytics, and scalability, enabling data-driven decisions and platform growth.
 
-2. Author (Can manage their own projects (CRUD))
+#### Key Additions
+- Reporting & analytics capabilities
+- Moderation and content insights
+- Structured datasets for future dashboards
+- Preparation for asynchronous, event-driven workflows
+- Improved separation of concerns between services
 
-3. Admin (Can manage all)
-
-Users (All of them) need to go to the Login View to be able to Sign In or Sign Up, after it:
-
-- Post Reviews
-- Manage Projects
-- Manage All (For admin only)
-
-But without signing in, all users can see projects in the public project page
-
-## MVP Diagram
-
-![Proctique MVP diagram](mvp-diagram.png)
-
-*Legend*
-![Proctique MVP diagram legend](legend.png)
-
-*Note: For MVP we are not going to use any external service* 
-
-*Note: You can review on Figjam [here](https://www.figma.com/board/FaCHliTP4UXuOrhvpX1UHV/M4-HS-Designing-APIs?node-id=32-361)*
+#### Goals of Phase II
+- Understand user behavior and content quality
+- Support operational insights for admins
+- Prepare the platform for higher traffic and feature expansion
