@@ -20,6 +20,8 @@ Each phase is documented independently to clearly show architectural decisions a
 
 [Documentation](/mvp/README.md)
 
+[Example of endpoints](/mvp/endpoints.md)
+
 ### Summary
 
 The MVP establishes the core functionality of Proctique
