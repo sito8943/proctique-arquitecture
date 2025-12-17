@@ -5,6 +5,8 @@ The platform evolves incrementally, following a phased architecture approach to 
 
 This repository documents the system architecture and capabilities across multiple phases of development.
 
+[Software engineering](/software-engineering.md)
+
 ## Architecture Evolution Overview
 
 Proctique is designed to grow in clearly defined phases, each adding new capabilities while building on the previous one.
