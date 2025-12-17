@@ -1,6 +1,14 @@
 # Proctique Arquitecture
 Proctique is a Project Discovery Platform where authors can showcase their work, and users can explore, evaluate, and leave meaningful reviews on published projects. The platform also includes an administrative layer that moderates the community and manages authors, projects, categories, and reviews to ensure a healthy and organized ecosystem.
 
+##  Implementation Team Proposals
+
+One team would be enough, with 3 teammembers:
+1. Designer (Brand and UI / UX decisions)
+2. Frontend Developer (Views implementation and Propose UI / UX)
+3. Backend Developer (Services and Devops)
+
+
 ## Project elements
 
 ### Clients 
@@ -55,6 +63,8 @@ Storages
 2. Image storage (File storage)
 
 For now we have a single main database, which is used for core data, complemented by a dedicated image storage service for media files. This ensures strong consistency for core entities (projects, reviews, users). Separates binary file storage from relational data. Enables efficient image delivery and future CDN integration. And simplifies backup and data management strategies.
+
+Proctique uses PostgreSQL as its primary data store. Is the best fit for Proctique because the platform is relationship-heavy, consistency-driven, and requires flexible querying.
 
 ## Project Patterns
 
@@ -113,6 +123,23 @@ Frontend applications communicate with backend services using synchronous REST A
 ## AuthN and AuthZ
 
 JWT for authentication and Role-Based for Authorization
+
+### Why JWT?
+
+1.	Stateless authentication
+    - The backend does not need to store session state.
+    - This simplifies scaling and deployment (especially for future horizontal scaling).
+2.	Well-suited for REST APIs
+    - Tokens are sent explicitly via the Authorization header.
+    - Works naturally with frontend clients (web, mobile, future integrations).
+3.	Clear separation of concerns
+	- Authentication is handled once at login.
+	- Authorization decisions are made per request using token claims.
+4.	Easy integration with RBAC
+	- User role and permissions can be embedded as claims.
+	- Services can enforce access rules without additional database lookups.
+5.	Future-proof
+	- JWT allows future integration with OAuth2 or third-party identity providers if needed (e.g., “Login with GitHub”), without rewriting core authorization logic.
 
 Roles:
 

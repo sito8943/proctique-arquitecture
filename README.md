@@ -22,6 +22,10 @@ Each phase is documented independently to clearly show architectural decisions a
 
 [Example of endpoints](/mvp/endpoints.md)
 
+[MVP Data schema](https://drawsql.app/teams/inmersoft/diagrams/proctique)
+
+![Database diagram](/mvp/database.png)
+
 ### Summary
 
 The MVP establishes the core functionality of Proctique
